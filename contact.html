@@ -1,0 +1,12 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><title>Contact — Hind Clothing</title></head><body>
+<div id="hdr"></div>
+<main style="max-width:900px;margin:0 auto"><h2>Contactez-nous</h2><p style="color:var(--mut);margin:8px 0 28px">Une question sur une commande, une taille ou une livraison ? Écrivez-nous.</p>
+<div class="cc" id="cc"></div>
+<form id="cf" class="panel"><h2 style="font-size:1.7rem">Envoyer un message</h2><label for="cn">Votre nom</label><input id="cn" required><label for="cm">Message</label><textarea id="cm" required></textarea><div style="margin-top:18px"><button>Envoyer sur WhatsApp</button></div></form></main>
+<div id="ftr"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="config.js"></script><script src="settings.js"></script><script src="common.js"></script>
+<script>
+const C=CONTACT;
+$('cc').innerHTML=`<a href="https://wa.me/${C.whatsapp}" target="_blank" rel="noopener"><b>WhatsApp</b>${C.phone}</a><a href="mailto:${C.email}"><b>Email</b>${C.email}</a><a href="${C.instagram}" target="_blank" rel="noopener"><b>Instagram</b>Suivez-nous</a>`;
+$('cf').onsubmit=e=>{e.preventDefault();open(`https://wa.me/${C.whatsapp}?text=`+encodeURIComponent(`Bonjour, je suis ${$('cn').value}.\n${$('cm').value}`),'_blank')};
+</script></body></html>

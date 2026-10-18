@@ -1,51 +1,44 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><title>Hind Clothing</title></head><body>
-<header><a class="logo" href="index.html">Hind Clothing</a><span>Livraison partout en Algérie</span></header>
-<main id="main"><a class="back" href="index.html">← Retour aux produits</a>
-<div class="pwrap hide" id="wrap">
- <div><div id="pimg"></div><h2 id="pname" style="margin-top:18px"></h2><div class="price" id="pprice" style="font-size:1.3rem"></div><p class="desc" id="pdesc"></p></div>
- <div class="panel">
- <form id="form"><div id="formView">
-  <h2>Commander</h2>
-  <label for="fn">Nom complet</label><input id="fn" required>
-  <label for="ph">Téléphone</label><input id="ph" type="tel" required pattern="0[5-7][0-9]{8}" placeholder="0555123456">
-  <label for="qty">Quantité</label><input id="qty" type="number" min="1" max="10" value="1" required>
-  <label for="wil">Wilaya</label><select id="wil" required><option value="">Choisir la wilaya</option></select>
-  <label for="com">Commune</label><select id="com" required disabled><option value="">Choisir d'abord la wilaya</option></select>
-  <input id="comOther" class="hide" placeholder="Écrivez votre commune" style="margin-top:8px">
-  <label>Type de livraison</label>
-  <div class="radios">
-   <label><input type="radio" name="dt" value="800" required><span>À domicile<br><b>800 DA</b></span></label>
-   <label><input type="radio" name="dt" value="500"><span>Au bureau<br><b>500 DA</b></span></label>
-  </div>
-  <div class="sum"><div><span>Produit</span><span id="sP">0 DA</span></div><div><span>Livraison</span><span id="sD">—</span></div><div class="tot"><span>Total</span><span id="sT">0 DA</span></div></div>
-  <div class="row"><button type="submit" id="sub">Confirmer la commande</button></div>
- </div>
- <div id="okView" class="ok hide"><h2>Merci ! 🎀</h2><p id="okTxt"></p><a class="btn" href="index.html" style="display:inline-block;text-decoration:none">Retour à la boutique</a></div>
- </form></div>
-</div></main>
-<footer>© 2026 Hind Clothing</footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="config.js"></script><script src="common.js"></script><script src="data.js"></script>
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><title>Hind Clothing</title></head><body>
+<div id="hdr"></div>
+<main><div class="pdp" id="wrap">
+<div class="gal"><div class="main" id="main"></div><div class="thumbs" id="thumbs"></div></div>
+<div class="side"><a class="back" href="shop.html">← Boutique</a><h1 id="pname"></h1><div class="pr" id="pprice"></div>
+<div class="sec"><h3>Description</h3><p class="desc" id="pdesc"></p></div>
+<form class="co" id="form"><h2 style="font-size:1.8rem">Commander</h2>
+<label for="fn">Nom complet</label><input id="fn" required>
+<label for="ph">Téléphone</label><input id="ph" type="tel" required pattern="0[5-7][0-9]{8}" placeholder="0555123456">
+<label for="qty">Quantité</label><input id="qty" type="number" min="1" max="10" value="1" required>
+<label for="wil">Wilaya</label><select id="wil" required><option value="">Choisir la wilaya</option></select>
+<label for="com">Commune</label><select id="com" required disabled><option value="">Choisir d’abord la wilaya</option></select>
+<input id="comOther" class="hide" placeholder="Écrivez votre commune" style="margin-top:8px">
+<label>Type de livraison</label>
+<div class="radios"><label><input type="radio" name="dt" value="800" required><span>À domicile<br><b>800 DA</b></span></label><label><input type="radio" name="dt" value="500"><span>Au bureau<br><b>500 DA</b></span></label></div>
+<div class="sum"><div><span>Produit</span><span id="sP">0 DA</span></div><div><span>Livraison</span><span id="sD">—</span></div><div class="tot"><span>Total</span><span id="sT">0 DA</span></div></div>
+<button type="submit" id="sub">Confirmer la commande</button></form></div></div></main>
+<div id="ftr"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="config.js"></script><script src="settings.js"></script><script src="common.js"></script><script src="data.js"></script>
 <script>
-let cur=null;
-const id=new URLSearchParams(location.search).get('id');
-(async()=>{
- const {data}=await sb.from('products').select('*').eq('id',id).maybeSingle();
- if(!data){$('main').innerHTML='<a class="back" href="index.html">← Retour</a><p>Produit introuvable.</p>';return}
- cur=data;document.title=data.name+' — Hind Clothing';
- $('pimg').innerHTML=data.image_url?`<img class="pimg" style="border-radius:18px" src="${esc(data.image_url)}" alt="${esc(data.name)}">`:'<div class="ph" style="border-radius:18px">Photo</div>';
- $('pname').textContent=data.name;$('pprice').textContent=fmt(data.price);$('pdesc').textContent=data.description||'';
- $('wrap').classList.remove('hide');totals();
-})();
-WILAYAS.forEach((w,i)=>$('wil').add(new Option(`${String(i+1).padStart(2,'0')} - ${w}`,i+1)));
-$('wil').onchange=()=>{const c=$('com'),v=$('wil').value;c.innerHTML='<option value="">Choisir la commune</option>';(COMMUNES[v]||[]).forEach(n=>c.add(new Option(n,n)));c.add(new Option('Autre commune…','__other'));c.disabled=!v;$('comOther').classList.add('hide');$('comOther').required=false};
+let cur=null;const id=new URLSearchParams(location.search).get('id');
+(async()=>{const {data}=await sb.from('products').select('*').eq('id',id).maybeSingle();
+if(!data){$('wrap').innerHTML='<p>Produit introuvable. <a href="shop.html">Voir la boutique</a></p>';return}
+cur=data;document.title=data.name+' — Hind Clothing';const im=imgs(data);
+$('main').innerHTML=im.length?`<img src="${esc(im[0])}" alt="${esc(data.name)}">`:'<div class="ph">Hind</div>';
+if(im.length>1)$('thumbs').innerHTML=im.map((u,i)=>`<img src="${esc(u)}" class="${i?'':'on'}" alt="">`).join('');
+$('thumbs').onclick=e=>{const t=e.target.closest('img');if(!t)return;$('main').firstElementChild.src=t.src;[...$('thumbs').children].forEach(c=>c.classList.toggle('on',c===t))};
+$('pname').textContent=data.name;$('pdesc').textContent=data.description||'';
+$('pprice').innerHTML=fmt(data.price)+(data.old_price>data.price?` <s>${fmt(data.old_price)}</s>`:'');totals()})();
+WILAYAS.forEach((w,i)=>$('wil').add(new Option(`${String(i+1).padStart(2,'0')} - ${w} · ${WILAYAS_AR[i]}`,i+1)));
+$('wil').onchange=async()=>{await COMMUNES_READY;const c=$('com'),v=$('wil').value;c.innerHTML='<option value="">Choisir la commune</option>';(COMMUNES[v]||[]).forEach(n=>c.add(new Option(n.fr+(n.ar?' · '+n.ar:''),n.fr+(n.ar?' ('+n.ar+')':''))));c.add(new Option('Autre commune…','__other'));c.disabled=!v;$('comOther').classList.add('hide');$('comOther').required=false};
 $('com').onchange=()=>{const o=$('com').value==='__other';$('comOther').classList.toggle('hide',!o);$('comOther').required=o};
 function totals(){const q=+$('qty').value||1,sub=cur?cur.price*q:0,d=document.querySelector('input[name=dt]:checked'),dv=d?+d.value:null;
- $('sP').textContent=fmt(sub);$('sD').textContent=dv===null?'—':fmt(dv);$('sT').textContent=fmt(sub+(dv||0));return{dv,total:sub+(dv||0)}}
+$('sP').textContent=fmt(sub);$('sD').textContent=dv===null?'—':fmt(dv);$('sT').textContent=fmt(sub+(dv||0));return{dv,total:sub+(dv||0)}}
 document.querySelectorAll('input[name=dt]').forEach(r=>r.onchange=totals);$('qty').oninput=totals;
-$('form').onsubmit=async e=>{e.preventDefault();const t=totals(),wil=WILAYAS[$('wil').value-1],com=$('com').value==='__other'?$('comOther').value:$('com').value;
- $('sub').disabled=true;
- const {error}=await sb.from('orders').insert({product_id:cur.id,product_name:cur.name,quantity:+$('qty').value,customer_name:$('fn').value,phone:$('ph').value,wilaya:wil,commune:com,delivery_type:t.dv===800?'À domicile':'Au bureau',delivery_price:t.dv,total:t.total});
- if(error){$('sub').disabled=false;return alert("Erreur, réessayez : "+error.message)}
- $('okTxt').textContent=`Commande reçue. Total à payer à la livraison : ${fmt(t.total)} (${wil}, ${com}). Nous vous appellerons pour confirmer.`;
- $('formView').classList.add('hide');$('okView').classList.remove('hide')};
+$('form').onsubmit=async e=>{e.preventDefault();const t=totals();
+const com=$('com').value==='__other'?$('comOther').value:$('com').value;
+const o={product_id:cur.id,product_name:cur.name,quantity:+$('qty').value,customer_name:$('fn').value,phone:$('ph').value,wilaya:WILAYAS[$('wil').value-1],commune:com,delivery_type:t.dv===800?'À domicile':'Au bureau',delivery_price:t.dv,total:t.total};
+$('sub').disabled=true;const {error}=await sb.from('orders').insert(o);
+if(error){$('sub').disabled=false;return alert('Erreur, réessayez : '+error.message)}
+if(SHEETS_URL)await Promise.race([fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(o)}).catch(()=>{}),new Promise(r=>setTimeout(r,3000))]);
+try{sessionStorage.setItem('order',JSON.stringify(o))}catch(_){}
+location.href='thanks.html'};
 </script></body></html>

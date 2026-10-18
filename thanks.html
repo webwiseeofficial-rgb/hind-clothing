@@ -1,0 +1,14 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><title>Merci — Hind Clothing</title></head><body>
+<div id="hdr"></div>
+<div class="ty"><div class="ck">✓</div><h1 id="who" style="font-size:2.6rem">Merci pour votre commande !</h1>
+<p style="color:var(--mut)">Nous vous appellerons très bientôt pour confirmer la livraison. Vous payez à la réception.</p>
+<div class="box hide" id="sum"></div>
+<a class="btn" href="shop.html">Continuer mes achats</a></div>
+<div id="ftr"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="config.js"></script><script src="settings.js"></script><script src="common.js"></script>
+<script>
+let o=null;try{o=JSON.parse(sessionStorage.getItem('order'))}catch(_){}
+if(o){$('who').textContent='Merci '+o.customer_name+' !';
+$('sum').innerHTML=`<div><span>Produit</span><b>${esc(o.product_name)} × ${o.quantity}</b></div><div><span>Livraison</span><b>${esc(o.wilaya)}, ${esc(o.commune)} (${esc(o.delivery_type)})</b></div><div><span>Frais de livraison</span><b>${fmt(o.delivery_price)}</b></div><div><span>Total à payer</span><b>${fmt(o.total)}</b></div>`;
+$('sum').classList.remove('hide')}
+</script></body></html>

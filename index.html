@@ -1,13 +1,11 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><title>Hind Clothing</title></head><body>
-<header><a class="logo" href="index.html">Hind Clothing</a><span>Livraison partout en Algérie</span></header>
-<section class="hero"><h1>Douceur &amp; élégance</h1><p>Des vêtements en rose poudré, pensés pour chaque jour. Paiement à la livraison.</p></section>
-<main><h2>Nos produits</h2><div class="grid" id="grid"><p>Chargement…</p></div></main>
-<footer>© 2026 Hind Clothing</footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="config.js"></script><script src="common.js"></script>
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><title>Hind Clothing</title></head><body>
+<div id="hdr"></div>
+<div class="hero"><h1>Douceur &amp; élégance</h1><p>Pyjamas, collections d’hiver et d’été, pensés pour votre confort. Paiement à la livraison.</p><a class="btn" href="shop.html">Découvrir la collection</a></div>
+<section><h2 style="margin-bottom:24px">Nos catégories</h2><div class="cats"><a class="cat" href="shop.html?cat=pyjamas">Pyjamas</a><a class="cat" href="shop.html?cat=hiver">Hiver</a><a class="cat" href="shop.html?cat=ete">Été</a><a class="cat" href="shop.html?cat=soldes">Soldes</a></div></section>
+<section style="padding-top:0"><div class="sh"><h2>Nouveautés</h2><a class="btn out" href="shop.html">Tout voir</a></div><div class="grid" id="grid"></div></section>
+<div id="ftr"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="config.js"></script><script src="settings.js"></script><script src="common.js"></script>
 <script>
-(async()=>{
-const {data,error}=await sb.from('products').select('*').order('created_at',{ascending:false});
-if(error||!data.length){$('grid').innerHTML='<p>Aucun produit pour le moment.</p>';return}
-$('grid').innerHTML=data.map(p=>`<a class="card" href="product.html?id=${p.id}">${p.image_url?`<img class="pimg" loading="lazy" src="${esc(p.image_url)}" alt="${esc(p.name)}">`:'<div class="ph">Photo</div>'}<div class="info"><h3>${esc(p.name)}</h3><div class="price">${fmt(p.price)}</div><span class="btn" style="display:block;text-align:center">Voir le produit</span></div></a>`).join('');
-})();
+(async()=>{const {data}=await sb.from('products').select('*').order('created_at',{ascending:false}).limit(8);
+$('grid').innerHTML=data&&data.length?data.map(card).join(''):'<p>Nouveaux produits très bientôt.</p>'})();
 </script></body></html>
