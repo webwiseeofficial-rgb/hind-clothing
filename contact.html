@@ -7,6 +7,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="config.js"></script><script src="settings.js"></script><script src="common.js"></script>
 <script>
 const C=CONTACT;
-$('cc').innerHTML=`<a href="https://wa.me/${C.whatsapp}" target="_blank" rel="noopener"><b>WhatsApp</b>${C.phone}</a><a href="mailto:${C.email}"><b>Email</b>${C.email}</a><a href="${C.instagram}" target="_blank" rel="noopener"><b>Instagram</b>Suivez-nous</a>`;
+$('cc').innerHTML=`<a href="https://wa.me/${C.whatsapp}" target="_blank" rel="noopener"><b>WhatsApp</b>${C.phone}</a><a href="${C.instagram}" target="_blank" rel="noopener"><b>Instagram</b>Suivez-nous</a>`;
 $('cf').onsubmit=e=>{e.preventDefault();open(`https://wa.me/${C.whatsapp}?text=`+encodeURIComponent(`Bonjour, je suis ${$('cn').value}.\n${$('cm').value}`),'_blank')};
 </script></body></html>

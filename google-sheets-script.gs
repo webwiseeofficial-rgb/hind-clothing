@@ -6,7 +6,7 @@ function doPost(e) {
   }
   sh.appendRow([new Date(), d.product_name, d.quantity, d.customer_name, '', d.wilaya, d.commune, d.delivery_type, d.delivery_price, d.total]);
   sh.getRange(sh.getLastRow(), 5).setNumberFormat('@').setValue(d.phone);
-  MailApp.sendEmail('bounoua.hindd@gmail.com', 'Nouvelle commande : ' + d.product_name,
+  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'Nouvelle commande : ' + d.product_name,
     d.customer_name + ' - ' + d.phone + '\n' + d.wilaya + ', ' + d.commune + ' (' + d.delivery_type + ')\n' +
     d.product_name + ' x ' + d.quantity + '\nTotal : ' + d.total + ' DA');
   return ContentService.createTextOutput('ok');
