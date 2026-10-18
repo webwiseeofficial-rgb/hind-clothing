@@ -1,21 +1,24 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><title>Hind Clothing</title></head><body>
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><title>Hind Clothing</title></head><body class="pp">
 <div id="hdr"></div>
 <main><div class="pdp" id="wrap">
 <div class="gal"><div class="main" id="main"></div><div class="thumbs" id="thumbs"></div></div>
 <div class="side"><a class="back" href="shop.html">← Boutique</a><h1 id="pname"></h1><div class="pr" id="pprice"></div>
 <div class="sec"><h3>Description</h3><p class="desc" id="pdesc"></p></div>
-<form class="co" id="form"><h2 style="font-size:1.8rem">Commander</h2>
-<label for="fn">Nom complet</label><input id="fn" required>
-<label for="ph">Téléphone</label><input id="ph" type="tel" required pattern="0[5-7][0-9]{8}" placeholder="0555123456">
-<label for="qty">Quantité</label><input id="qty" type="number" min="1" max="10" value="1" required>
-<label for="wil">Wilaya</label><select id="wil" required><option value="">Choisir la wilaya</option></select>
-<label for="com">Commune</label><select id="com" required disabled><option value="">Choisir d’abord la wilaya</option></select>
-<input id="comOther" class="hide" placeholder="Écrivez votre commune" style="margin-top:8px">
-<label>Type de livraison</label>
-<div class="radios"><label><input type="radio" name="dt" value="800" required><span>À domicile<br><b>800 DA</b></span></label><label><input type="radio" name="dt" value="500"><span>Au bureau<br><b>500 DA</b></span></label></div>
+<form class="co" id="form"><h2>Commander</h2>
+<div class="step"><span>1</span>Vos informations</div>
+<div class="fld"><label for="fn">Nom complet</label><input id="fn" required autocomplete="name" placeholder="Votre nom et prénom"></div>
+<div class="fld"><label for="ph">Téléphone</label><input id="ph" type="tel" required pattern="0[5-7][0-9]{8}" autocomplete="tel" placeholder="0555 12 34 56"></div>
+<div class="step"><span>2</span>Adresse de livraison</div>
+<div class="two"><div class="fld"><label for="wil">Wilaya</label><select id="wil" required><option value="">Choisir</option></select></div>
+<div class="fld"><label for="com">Commune</label><select id="com" required disabled><option value="">Choisir d’abord la wilaya</option></select></div></div>
+<input id="comOther" class="hide" placeholder="Écrivez votre commune" style="margin-bottom:12px">
+<div class="step"><span>3</span>Quantité et livraison</div>
+<div class="fld"><label for="qty">Quantité</label><input id="qty" type="number" min="1" max="10" value="1" required></div>
+<div class="radios"><label><input type="radio" name="dt" value="800" required><span class="ic">🏠</span>À domicile<b>800 DA</b></label><label><input type="radio" name="dt" value="500"><span class="ic">🏢</span>Au bureau<b>500 DA</b></label></div>
 <div class="sum"><div><span>Produit</span><span id="sP">0 DA</span></div><div><span>Livraison</span><span id="sD">—</span></div><div class="tot"><span>Total</span><span id="sT">0 DA</span></div></div>
-<button type="submit" id="sub">Confirmer la commande</button></form></div></div></main>
-<div id="ftr"></div>
+<button type="submit" id="sub">Confirmer la commande</button>
+<p class="note">🔒 Vous payez uniquement à la réception de votre colis.</p></form></div></div></main>
+<a class="btn stick" href="#form">Commander maintenant</a><div id="ftr"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="config.js"></script><script src="settings.js"></script><script src="common.js"></script><script src="data.js"></script>
 <script>
 let cur=null;const id=new URLSearchParams(location.search).get('id');
