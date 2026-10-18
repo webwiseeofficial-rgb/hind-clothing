@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><meta name="robots" content="noindex"><title>Admin — Hind Clothing</title></head><body>
+<header><a class="logo" href="index.html">Hind Clothing</a><span>Livraison partout en Algérie</span></header>
+<main class="admin">
+<div id="login" class="panel hide"><h2>Connexion admin</h2>
+ <form id="lf"><label>Email</label><input id="em" type="email" required><label>Mot de passe</label><input id="pw" type="password" required><div class="row"><button>Se connecter</button></div></form></div>
+<div id="panel" class="hide">
+ <div style="text-align:right"><button id="out" class="danger">Déconnexion</button></div>
+ <h2>Ajouter un produit</h2>
+ <form id="af" class="panel"><label>Nom</label><input id="nm" required><label>Description</label><textarea id="ds"></textarea>
+  <label>Prix (DA)</label><input id="pr" type="number" min="0" required><label>Photo</label><input id="img" type="file" accept="image/*">
+  <div class="row"><button id="addb">Ajouter</button></div></form>
+ <h2 style="margin-top:30px">Produits</h2><div class="list" id="plist"></div>
+ <h2>Commandes</h2><div class="list" id="olist"></div>
+</div></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="config.js"></script><script src="common.js"></script>
+<script>
+async function show(){const {data:{session}}=await sb.auth.getSession();$('login').classList.toggle('hide',!!session);$('panel').classList.toggle('hide',!session);if(session){loadP();loadO()}}
+$('lf').onsubmit=async e=>{e.preventDefault();const {error}=await sb.auth.signInWithPassword({email:$('em').value,password:$('pw').value});if(error)return alert('Email ou mot de passe incorrect');show()};
+$('out').onclick=async()=>{await sb.auth.signOut();show()};
+$('af').onsubmit=async e=>{e.preventDefault();$('addb').disabled=true;let url=null;const f=$('img').files[0];
+ if(f){const path=Date.now()+'-'+f.name.replace(/[^a-z0-9.]/gi,'_');const {error}=await sb.storage.from('products').upload(path,f);if(error){$('addb').disabled=false;return alert(error.message)}url=sb.storage.from('products').getPublicUrl(path).data.publicUrl}
+ const {error}=await sb.from('products').insert({name:$('nm').value,description:$('ds').value,price:+$('pr').value,image_url:url});
+ $('addb').disabled=false;if(error)return alert(error.message);$('af').reset();loadP()};
+async function loadP(){const {data}=await sb.from('products').select('*').order('created_at',{ascending:false});
+ $('plist').innerHTML=(data||[]).map(p=>`<div class="item"><div>${esc(p.name)}<small>${fmt(p.price)}</small></div><button class="danger" data-id="${p.id}">Supprimer</button></div>`).join('')||'<p>Aucun produit.</p>'}
+$('plist').onclick=async e=>{const b=e.target.closest('button');if(!b||!confirm('Supprimer ce produit ?'))return;await sb.from('products').delete().eq('id',b.dataset.id);loadP()};
+async function loadO(){const {data}=await sb.from('orders').select('*').order('created_at',{ascending:false}).limit(100);
+ $('olist').innerHTML=(data||[]).map(o=>`<div class="item"><div>${esc(o.product_name)} × ${o.quantity} — <b>${fmt(o.total)}</b><small>${esc(o.customer_name)} · ${esc(o.phone)} · ${esc(o.wilaya)}, ${esc(o.commune)} · ${esc(o.delivery_type)}</small><small>${new Date(o.created_at).toLocaleString('fr-FR')}</small></div></div>`).join('')||'<p>Aucune commande.</p>'}
+show();
+</script></body></html>
